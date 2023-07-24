@@ -2,6 +2,7 @@
 --- Download OFFICIAL version and updates ONLY at https://github.com/TayMcKenzieNZ/rpemotes ---
 --- RPEmotes is FREE and ALWAYS will be. STOP PAYING SCAMMY FUCKERS FOR SOMEONE ELSE'S WORK!!! ---
 
+lang = Config.MenuLanguage
 
 
 local rightPosition = { x = 1450, y = 100 }
@@ -23,11 +24,22 @@ end
 
 if Config.CustomMenuEnabled then
     local RuntimeTXD = CreateRuntimeTxd('Custom_Menu_Head')
-    local Object = CreateDui(Config.MenuImage, 512, 128)
-    _G.Object = Object
+	
+	if Config.MenuImageUseLang then
+	local ImageT = Config.Languages[lang]['BackGroundLang'] or Config.MenuImage
+	local Object = CreateDui(ImageT, 512, 128)
+	_G.Object = Object
     local TextureThing = GetDuiHandle(Object)
     local Texture = CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'Custom_Menu_Head', TextureThing)
     Menuthing = "Custom_Menu_Head"
+	else
+    local Object = CreateDui(Config.MenuImage, 512, 128)
+	_G.Object = Object
+    local TextureThing = GetDuiHandle(Object)
+    local Texture = CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'Custom_Menu_Head', TextureThing)
+    Menuthing = "Custom_Menu_Head"
+	end
+
 else
     Menuthing = "shopui_title_sm_hangar"
 end
@@ -67,8 +79,6 @@ if Config.FavKeybindEnabled then
         end
     end
 end
-
-lang = Config.MenuLanguage
 
 function AddEmoteMenu(menu)
     local submenu = _menuPool:AddSubMenu(menu, Config.Languages[lang]['emotes'], "", "", Menuthing, Menuthing)
