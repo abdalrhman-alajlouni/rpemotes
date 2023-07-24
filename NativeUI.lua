@@ -533,11 +533,22 @@ function AddLongString(str)
 end
 
 function MeasureStringWidthNoConvert(str, font, scale)
+	if lang == "ar" then
+	BeginTextCommandWidth("STRING")
+    AddLongString(str)
+    RegisterFontFile('mznsh')
+	fontId = RegisterFontId('mznsh')
+	font = fontId
+    SetTextFont(font)
+    SetTextScale(1.0, scale or 0)
+    return EndTextCommandGetWidth(true)
+	else
     BeginTextCommandWidth("STRING")
     AddLongString(str)
     SetTextFont(font or 0)
     SetTextScale(1.0, scale or 0)
     return EndTextCommandGetWidth(true)
+	end
 end
 
 function MeasureStringWidth(str, font, scale)
@@ -592,7 +603,15 @@ function UIResText:Draw()
     local Position = self:Position()
     Position.X, Position.Y = FormatXWYH(Position.X, Position.Y)
 
+    if lang == "ar" then
+	RegisterFontFile('A9eelsh')
+	fontId = RegisterFontId('A9eelsh')
+	font = fontId
+    SetTextFont(font)
+	else
     SetTextFont(self.Font)
+end
+
     SetTextScale(1.0, self.Scale)
     SetTextColour(self._Colour.R, self._Colour.G, self._Colour.B, self._Colour.A)
 
@@ -626,7 +645,17 @@ end
 function RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
     Text = tostring(Text)
     X, Y = FormatXWYH(X, Y)
+	
+		if lang == "ar" then
+	RegisterFontFile('A9eelsh')
+	fontId = RegisterFontId('A9eelsh')
+	font = fontId
+    SetTextFont(font)
+	else
     SetTextFont(Font or 0)
+end
+
+    
     SetTextScale(1.0, Scale or 0)
     SetTextColour(R or 255, G or 255, B or 255, A or 255)
 
